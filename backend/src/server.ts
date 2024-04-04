@@ -1,9 +1,12 @@
-import express from 'express';
+import { ApolloServer } from 'apollo-server'
+import typeDefs from './graphql/typeDefs'
+import resolvers from './graphql/resolvers'
+import mongoose from 'mongoose'
+import { environmentConfig } from './config/config'
 
-const PORT = process.env.PORT || 3000
+const { HOST, DB_PORT, DB_NAME } = environmentConfig
+const server = new ApolloServer({ typeDefs, resolvers })
+console.log(`mongodb://${HOST}:${DB_PORT}/${DB_NAME}`)
+mongoose.connect(`mongodb://${HOST}:${DB_PORT}/${DB_NAME}`, {})
 
-const app = express();
-
-app.listen(PORT, () => {
-  console.log(`App rodando na porta ${PORT}`)
-})
+server.listen().then(({ url }) => console.log(`Servidor rodando ${url}`))
