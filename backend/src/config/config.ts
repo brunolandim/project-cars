@@ -14,7 +14,7 @@ const { HOST, DB_PORT, DB_NAME } = environmentConfig
 
 export const connection = async () => {
   try {
-    await mongoose.connect(`mongodb://mongo:${DB_PORT}/${DB_NAME}`)
+    await mongoose.connect(`mongodb://${HOST}:${DB_PORT}/${DB_NAME}`)
     console.log('Conectou com sucesso')
   } catch (error) {
     console.log(error)
