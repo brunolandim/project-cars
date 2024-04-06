@@ -7,4 +7,5 @@ const server = new ApolloServer({ typeDefs, resolvers })
 
 connection()
 
-server.listen().then(({ url }) => console.log(`Servidor rodando ${url}`))
+
+server.listen().then(({ url }) => console.log(`🚀 Server ready at ${url}`))

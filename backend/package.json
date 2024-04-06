@@ -11,15 +11,19 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@graphql-tools/load-files": "^7.0.0",
+    "@graphql-tools/schema": "^10.0.3",
     "@types/express": "^4.17.21",
     "@types/node": "^20.12.4",
     "apollo-server": "^3.13.0",
     "dotenv": "^16.4.5",
     "graphql": "^16.8.1",
+    "graphql-upload-ts": "^2.1.2",
     "mongoose": "^8.3.0",
     "typescript": "^5.4.3"
   },
   "devDependencies": {
+    "@types/uuid": "^9.0.8",
     "ts-node": "^10.9.2"
   }
 }
