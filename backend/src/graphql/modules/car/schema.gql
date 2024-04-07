@@ -6,7 +6,8 @@ type Car {
 
 input CarInput {
   name: String!
-  image:Upload
+  image:String
+  phoneNumber: String
 }
 
 type File {
@@ -18,7 +19,6 @@ type File {
 type Query {
   cars: [Car!]!
   car(id:ID!): Car!  
-  uploads: [File]
 }
 
 type Mutation {

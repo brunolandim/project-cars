@@ -11,6 +11,6 @@ export default {
     createCar: async (_: any, { data }: any) => await CarService.createCar(data),
     updateCar: async (_: any, { id, data }: any) => await CarService.updateCar(id, data),
     deleteCar: async (_: any, { id }: any) => !!(await CarService.deleteCar(id)),
-    singleUpload: async (__parent: any, args: any) => await args.file.then((file: any) => file)
+    singleUpload: async (__parent: any, args: any) => await args.file.then((file: any) => CarService.uploadImage(file))
   }
 }

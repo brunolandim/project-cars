@@ -8,6 +8,8 @@ const CarSchema = new mongoose.Schema({
   image: String,
 })
 
-export default mongoose.model('Car', CarSchema)
+const Car = mongoose.model('Car', CarSchema);
+
+export default Car;
 
 
