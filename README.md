@@ -14,6 +14,9 @@ Este é um projeto construído com GraphQL no backend utilizando MongoDB como ba
  - GraphQL: Utilizado como linguagem de consulta para interação com o servidor.
 
  - MongoDB: Banco de dados NoSQL utilizado para armazenar os dados dos carros elétricos.
+
+ - Angular 17
+ 
 ## Como Usar
 
 ```
