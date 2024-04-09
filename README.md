@@ -3,8 +3,6 @@
 
 Este é um projeto construído com GraphQL no backend utilizando MongoDB como banco de dados, e Angular no frontend. A API permite o cadastro, consulta, atualização e exclusão de carros elétricos.
 
-
-## Funcionalidades
 ## Funcionalidades
 
  - Cadastro de Carros Elétricos: Os usuários podem adicionar novos carros elétricos à base de dados, fornecendo informações como modelo, marca, ano, autonomia, entre outros.
