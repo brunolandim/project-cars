@@ -1,0 +1,18 @@
+<div class="card">
+  <img [src]="car.image" alt="{{ car.name }} Image">
+  <button (click)="deleteCar(car._id)">Deletar carro</button>
+
+  <div *ngIf="!car.editMode" class="card-body">
+    <h5 class="card-title">{{ car.name }}</h5>
+    <button (click)="toggleEditMode()">Editar</button>
+  </div>
+
+  <div *ngIf="car.editMode" class="card-body">
+    <input type="text" [(ngModel)]="car.name">
+    <div>
+      <button (click)="saveCar(car._id,car)">Salvar</button>
+      <button (click)="cancelEdit()">Cancelar</button>
+    </div>
+
+  </div>
+</div>

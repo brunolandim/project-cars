@@ -15,7 +15,7 @@ class CarService {
   }
 
   async uploadImage(file: any) {
-
+    console.log(file)
     const { createReadStream, filename, mimetype, encoding } = await file;
     const fileExt = path.extname(filename);
     const uploadedFileName = `${uuidv4()}${fileExt}`;
@@ -27,39 +27,52 @@ class CarService {
         .on('error', reject)
         .on('finish', resolve);
     });
-    return { filename: uploadedFileName, mimetype, encoding };
+    const newFileName = `${process.env.URL}/${uploadedFileName}`
+    return { filename: newFileName, mimetype, encoding };
   }
 
   private async sendNotification(carInput: CarType) {
+    const { name, token } = carInput
 
-    const userToken = carInput.phoneNumber; // Recupere o token do usuário do seu banco de dados
-    const message = {
-      token: userToken,
-      notification: {
-        title: 'Novo carro adicionado!',
-        body: `Um novo carro foi adicionado: ${carInput.name}`,
+    try {
+      const message = {
+        notification: {
+          title: 'Novo carro adicionado!',
+          body: `Um novo carro foi adicionado: ${name}`,
+        },
+        token
+      };
 
-      },
-    };
+      await admin.messaging().send(message);
+    } catch (error) {
+      console.log(error)
+    }
 
-    // Envie a notificação push para o dispositivo do usuário
-    await admin.messaging().send(message);
   }
 
   async createCar(data: CarType) {
-
-    const existingCar = await Car.findOne({ name: data.name });
+    const { name, image } = data;
+    if (!name) {
+      throw new Error('É necessário passar o nome do veículo')
+    }
+    const existingCar = await Car.findOne({ name: name });
     if (existingCar) {
       throw new Error('Já existe um carro com esse nome.');
     }
-    const { name } = data;
-    let image = data.image ? data.image : process.env.DEFAULT_IMAGE;
-    const createdCar = await Car.create({ name, image });
+    const carImage = image ? image : process.env.DEFAULT_IMAGE;
+
+    const createdCar = await Car.create({ name, image: carImage });
+
     this.sendNotification(data)
     return createdCar;
   }
 
   async updateCar(id: string, data: CarType) {
+    const existingCar = await Car.findOne({ name: data.name });
+    if (existingCar) {
+      throw new Error('Já existe um carro com esse nome.');
+    }
+
     return await Car.findByIdAndUpdate(id, data, { new: true });
   }
 

@@ -1,0 +1,12 @@
+<form [formGroup]="carForm" class="form-section" enctype="multipart/form-data">
+  <label for="name">Nome do carro</label>
+  <input id="name" formControlName="name">
+  <label for="name">Adicione uma imagem</label>
+  <input formControlName="image" type="file" (change)="onFileSelected($event)" accept="image/*">
+  <img [src]="imageUrl" *ngIf="imageUrl" alt="Preview">
+  <button type="submit" (click)="submit()">Criar carro</button>
+</form>
+
+<div class="card-container">
+  <app-card *ngFor="let car of carList" [car]="car"></app-card>
+</div>
