@@ -42,14 +42,6 @@ const DELETE_CAR = gql`
   deleteCar(id: $deleteCarId)
 }
 `
-const UPLOAD_IMAGE = gql`
-  mutation($file: Upload!){
-  singleUpload(file: $file) {
-    encoding
-    filename
-    mimetype
-  }
-}
-`
 
-export { GET_CARS, GET_CAR_BY_ID, CREATE_CAR, UPDATE_CAR, DELETE_CAR, UPLOAD_IMAGE }
+
+export { GET_CARS, GET_CAR_BY_ID, CREATE_CAR, UPDATE_CAR, DELETE_CAR }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CREATE_CAR, DELETE_CAR, UPDATE_CAR, UPLOAD_IMAGE } from '../graphql.operations';
+import { CREATE_CAR, DELETE_CAR, UPDATE_CAR } from '../graphql.operations';
 import { Apollo } from 'apollo-angular';
 import { ICar } from '../interfaces/ICar';
 
@@ -57,19 +57,4 @@ export class CarService {
     })
   }
 
-  async uploadImage(file: any) {
-    this.apollo.mutate<any>({
-      mutation: UPLOAD_IMAGE,
-      variables: {
-        file
-      }
-    }).subscribe({
-      next: ({ data }: any) => {
-        return data
-      },
-      error: (error: any) => {
-        console.log(error)
-      }
-    })
-  }
 }

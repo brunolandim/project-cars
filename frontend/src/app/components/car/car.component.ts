@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ICar } from '../../interfaces/ICar';
 import { GET_CARS } from '../../graphql.operations';
 import { CardComponent } from '../card/card.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-car',
@@ -22,7 +23,7 @@ export class CarComponent implements OnInit {
   error = []
   fileToUpload: File | null = null;
 
-  constructor(private apollo: Apollo, private carService: CarService, private cdr: ChangeDetectorRef) {
+  constructor(private apollo: Apollo, private carService: CarService, private cdr: ChangeDetectorRef, private http: HttpClient) {
     this.carForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
       image: new FormControl('', []),
@@ -43,7 +44,6 @@ export class CarComponent implements OnInit {
         query: GET_CARS
       }).subscribe({
         next: (data) => {
-
           console.log(data)
         }
       });
@@ -56,17 +56,41 @@ export class CarComponent implements OnInit {
 
 
   submit(): void {
-    /* const formData = new FormData();
-     formData.append('file', this.fileToUpload as File);
-     const file = formData.get('file')
-     console.log(file)
-     this.carService.uploadImage(file)*/
-    //const {} = this.carForm
+
     const { name, image } = this.carForm.value
     this.carService.createCar({ name, image })
   }
 
-  onFileSelected(event: any): void {
-    this.fileToUpload = event.target.files[0];
+  onFileSelected(event: any) {
+    const operations = {
+      query: `
+          mutation($file: Upload!) {
+            singleUpload(file: $file) {
+              encoding
+              filename
+              mimetype
+            }
+          }
+        `,
+      variables: {
+        file: null
+      }
+    }
+    const _map = {
+      file: ["variables.file"]
+    }
+    const file = event.target.files[0]
+    const fd = new FormData()
+    fd.append('operations', JSON.stringify(operations))
+    fd.append('map', JSON.stringify(_map))
+    fd.append('file', file, file.name)
+
+    this.http.post('http://localhost:4000/graphql', fd).subscribe({
+      next: ({ data }: any) => {
+        this.carForm.value.image = data.singleUpload.filename
+
+        console.log('File uploaded successfully!', data);
+      }
+    })
   }
 }
